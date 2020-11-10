@@ -32,4 +32,8 @@ protected:
 		bool bFromSweep, 
 		const FHitResult& SweepResult);
 
+	UPROPERTY(EditDefaultsOnly, Category = "Sounds")
+	USoundBase* ObjectiveMissingSound;
+
+
  };

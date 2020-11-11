@@ -13,11 +13,13 @@ class FPSGAME_API AFPSExtractionZone : public AActor
 {
 	GENERATED_BODY()
 	
-public:	
+public:
+
 	// Sets default values for this actor's properties
 	AFPSExtractionZone();
 
 protected:
+
 	UPROPERTY(VisibleAnywhere, Category = "Components")
 	UBoxComponent* OverlapComp;
 
@@ -34,6 +36,4 @@ protected:
 
 	UPROPERTY(EditDefaultsOnly, Category = "Sounds")
 	USoundBase* ObjectiveMissingSound;
-
-
  };

@@ -21,6 +21,13 @@ protected:
     UPROPERTY(VisibleAnywhere, Category = "Components")
     UBoxComponent* OverlapComp;
 
+    UPROPERTY(EditInstanceOnly, Category = "Launch")
+    float ForwardForce;
+
+    UPROPERTY(EditInstanceOnly, Category = "Launch")
+    float UpForce;
+
+
     UFUNCTION()
     void HandleOverlap(
         UPrimitiveComponent* OverlappedComponent,
@@ -28,4 +35,5 @@ protected:
         int32 OtherBodyIndex,
         bool bFromSweep,
         const FHitResult& SweepResult);
+
 };

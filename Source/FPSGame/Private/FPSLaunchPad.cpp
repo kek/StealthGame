@@ -21,9 +21,7 @@ AFPSLaunchPad::AFPSLaunchPad()
 
     OverlapComp->OnComponentBeginOverlap.AddDynamic(this,
         &AFPSLaunchPad::HandleOverlap);
-
 }
-
 
 void AFPSLaunchPad::HandleOverlap(
     UPrimitiveComponent* OverlappedComponent,
@@ -39,6 +37,9 @@ void AFPSLaunchPad::HandleOverlap(
     if (MyPawn == nullptr) {
         return;
     } else {
+        MyPawn->Launch(ForwardForce, UpForce);
+        // FVector LaunchVelocity = FVector(LaunchVelocityX, LaunchVelocityY, LaunchVelocityZ);
+        // MyPawn->LaunchCharacter(LaunchVelocity, false, false);
     }
 
     UE_LOG(LogTemp, Log, TEXT("Overlapped with launch pad."));

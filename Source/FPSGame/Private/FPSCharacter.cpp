@@ -45,6 +45,19 @@ void AFPSCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputCompon
 	PlayerInputComponent->BindAxis("LookUp", this, &APawn::AddControllerPitchInput);
 }
 
+void AFPSCharacter::Launch(float ForwardForce, float UpForce)
+{
+    UE_LOG(LogTemp, Log, TEXT("Launching character."));
+
+    const FVector ForwardDir = this->GetActorRotation().Vector();
+    FVector Velocity = ForwardDir * 30000; //replicates automatically, if done on server
+    const FVector ForwardWithZ = (ForwardDir + FVector(0, 0, 1)); //in case forwarddir had some Z
+    const FVector ForwardWithUp = (ForwardDir + this->GetRootComponent()->GetUpVector());
+    const FVector TotalForce = ForwardDir * ForwardForce + FVector(0, 0, 1) * UpForce;
+
+    this->LaunchCharacter(TotalForce, false, false);
+}
+
 
 void AFPSCharacter::Fire()
 {

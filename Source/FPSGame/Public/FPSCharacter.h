@@ -70,7 +70,5 @@ public:
 
 	/** Returns FirstPersonCameraComponent subobject **/
 	UCameraComponent* GetFirstPersonCameraComponent() const { return CameraComponent; }
-
-	void Launch(float ForwardForce, float UpForce);
 };
 

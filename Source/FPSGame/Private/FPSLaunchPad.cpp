@@ -35,11 +35,16 @@ void AFPSLaunchPad::HandleOverlap(
     AFPSCharacter* MyPawn = Cast<AFPSCharacter>(OtherActor);
 
     if (MyPawn == nullptr) {
+        UE_LOG(LogTemp, Log, TEXT("Not a character."));
         return;
     } else {
-        MyPawn->Launch(ForwardForce, UpForce);
-        // FVector LaunchVelocity = FVector(LaunchVelocityX, LaunchVelocityY, LaunchVelocityZ);
-        // MyPawn->LaunchCharacter(LaunchVelocity, false, false);
+        const FVector ForwardDir = MyPawn->GetActorRotation().Vector();
+        FVector Velocity = ForwardDir * 30000; //replicates automatically, if done on server
+        const FVector ForwardWithZ = (ForwardDir + FVector(0, 0, 1)); //in case forwarddir had some Z
+        const FVector ForwardWithUp = (ForwardDir + MyPawn->GetRootComponent()->GetUpVector());
+        const FVector TotalForce = ForwardDir * ForwardForce + FVector(0, 0, 1) * UpForce;
+
+        MyPawn->LaunchCharacter(TotalForce, false, false);
     }
 
     UE_LOG(LogTemp, Log, TEXT("Overlapped with launch pad."));

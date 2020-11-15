@@ -8,14 +8,12 @@
 class UBoxComponent;
 
 UCLASS()
-class FPSGAME_API AFPSLaunchPad : public AActor
-{
-	GENERATED_BODY()
-	
-public:	
-    
+class FPSGAME_API AFPSLaunchPad : public AActor {
+    GENERATED_BODY()
+
+public:
     // Sets default values for this actor's properties
-	AFPSLaunchPad();
+    AFPSLaunchPad();
 
 protected:
     UPROPERTY(VisibleAnywhere, Category = "Components")
@@ -27,6 +25,8 @@ protected:
     UPROPERTY(EditInstanceOnly, Category = "Launch")
     float UpForce;
 
+    UPROPERTY(EditDefaultsOnly, Category = "Effects")
+    UParticleSystem* ActivateLaunchpadEffect;
 
     UFUNCTION()
     void HandleOverlap(
@@ -35,5 +35,4 @@ protected:
         int32 OtherBodyIndex,
         bool bFromSweep,
         const FHitResult& SweepResult);
-
 };

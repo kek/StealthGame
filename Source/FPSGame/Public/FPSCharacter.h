@@ -3,8 +3,8 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "FPSCharacter.generated.h"
 #include "GameFramework/Character.h"
+#include "FPSCharacter.generated.h"
 
 class UInputComponent;
 class USkeletalMeshComponent;

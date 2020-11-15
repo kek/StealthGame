@@ -39,8 +39,6 @@ void AFPSLaunchPad::HandleOverlap(
         return;
     } else {
         const FVector ForwardDir = MyPawn->GetActorRotation().Vector();
-        FVector Velocity = ForwardDir * 30000; //replicates automatically, if done on server
-        const FVector ForwardWithUp = (ForwardDir + MyPawn->GetRootComponent()->GetUpVector());
         const FVector TotalForce = ForwardDir * ForwardForce + FVector(0, 0, 1) * UpForce;
 
         MyPawn->LaunchCharacter(TotalForce, false, false);

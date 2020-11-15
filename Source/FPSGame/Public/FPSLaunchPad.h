@@ -21,9 +21,6 @@ protected:
     UPROPERTY(VisibleAnywhere, Category = "Components")
     UBoxComponent* OverlapComp;
 
-    UPROPERTY(VisibleAnywhere, Category = "Components")
-    UDecalComponent* DecalComp;
-
     UFUNCTION()
     void HandleOverlap(
         UPrimitiveComponent* OverlappedComponent,

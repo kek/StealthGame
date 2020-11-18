@@ -4,7 +4,9 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
+
 #include "FPSLaunchPad.generated.h"
+
 class UBoxComponent;
 
 UCLASS()

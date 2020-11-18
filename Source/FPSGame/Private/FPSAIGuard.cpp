@@ -1,8 +1,8 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
 #include "FPSAIGuard.h"
-#include "Perception/PawnSensingComponent.h"
 #include "DrawDebugHelpers.h"
+#include "Perception/PawnSensingComponent.h"
 
 // Sets default values
 AFPSAIGuard::AFPSAIGuard()
@@ -22,10 +22,10 @@ void AFPSAIGuard::BeginPlay()
 
 void AFPSAIGuard::OnPawnSeen(APawn* SeenPawn)
 {
-    if (SeenPawn == nullptr) { 
+    if (SeenPawn == nullptr) {
         UE_LOG(LogTemp, Log, TEXT("Seen nothing"));
 
-        return; 
+        return;
     }
 
     UE_LOG(LogTemp, Log, TEXT("Seen something"));

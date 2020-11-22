@@ -13,6 +13,7 @@ AFPSAIGuard::AFPSAIGuard()
     PawnSensingComp = CreateDefaultSubobject<UPawnSensingComponent>(TEXT("PawnSensingComp"));
     PawnSensingComp->OnSeePawn.AddDynamic(this, &AFPSAIGuard::OnPawnSeen);
     PawnSensingComp->OnHearNoise.AddDynamic(this, &AFPSAIGuard::OnNoiseHeard);
+    GuardState = EAIState::Idle;
 }
 
 // Called when the game starts or when spawned
@@ -29,17 +30,21 @@ void AFPSAIGuard::OnPawnSeen(APawn* SeenPawn)
         return;
     }
     UE_LOG(LogTemp, Log, TEXT("Seen something"));
-    DrawDebugSphere(GetWorld(), SeenPawn->GetActorLocation(), 32.0f, 12, FColor::Red, false, 10.0f);
+    DrawDebugSphere(GetWorld(), SeenPawn->GetActorLocation(), 32.0f, 12, FColor::Red, false, 3.0f);
     AFPSGameMode* GM = Cast<AFPSGameMode>(GetWorld()->GetAuthGameMode());
     if (GM) {
         GM->CompleteMission(SeenPawn, false);
     }
+    SetGuardState(EAIState::Alerted);
 }
 
 void AFPSAIGuard::OnNoiseHeard(APawn* NoiseInstigator, const FVector& Location, float Volume)
 {
+    if (GuardState == EAIState::Alerted) {
+        return;
+    }
     UE_LOG(LogTemp, Log, TEXT("Heard something"));
-    DrawDebugSphere(GetWorld(), Location, 32.0f, 12, FColor::Green, false, 10.0f);
+    DrawDebugSphere(GetWorld(), Location, 32.0f, 12, FColor::Green, false, 3.0f);
     FVector Direction = Location - GetActorLocation();
     Direction.Normalize();
     FRotator NewLookAt = FRotationMatrix::MakeFromX(Direction).Rotator();
@@ -48,11 +53,25 @@ void AFPSAIGuard::OnNoiseHeard(APawn* NoiseInstigator, const FVector& Location, 
     SetActorRotation(NewLookAt, ETeleportType::TeleportPhysics);
     GetWorldTimerManager().ClearTimer(TimerHandle_ResetOrientation);
     GetWorldTimerManager().SetTimer(TimerHandle_ResetOrientation, this, &AFPSAIGuard::ResetOrientation, 3.0f);
+    SetGuardState(EAIState::Suspicious);
 }
 
 void AFPSAIGuard::ResetOrientation()
 {
+    if (GuardState == EAIState::Alerted) {
+        return;
+    }
     SetActorRotation(OriginalRotation);
+    SetGuardState(EAIState::Idle);
+}
+
+void AFPSAIGuard::SetGuardState(EAIState NewState)
+{
+    if (GuardState == NewState) {
+        return;
+    }
+    GuardState = NewState;
+    OnStateChanged(GuardState);
 }
 
 // Called every frame

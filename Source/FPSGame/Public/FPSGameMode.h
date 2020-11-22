@@ -4,24 +4,22 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/GameModeBase.h"
+
 #include "FPSGameMode.generated.h"
 
 UCLASS()
-class AFPSGameMode : public AGameModeBase
-{
-	GENERATED_BODY()
+class AFPSGameMode : public AGameModeBase {
+    GENERATED_BODY()
 
 protected:
-
-	UPROPERTY(EditDefaultsOnly, Category = "Spectating")
-	TSubclassOf<AActor> SpectatingViewpointClass;
+    UPROPERTY(EditDefaultsOnly, Category = "Spectating")
+    TSubclassOf<AActor> SpectatingViewpointClass;
 
 public:
+    AFPSGameMode();
 
-	AFPSGameMode();
+    void CompleteMission(APawn* InstigatorPawn, bool bMissionSuccess);
 
-	void CompleteMission(APawn* InstigatorPawn);
-
-	UFUNCTION(BlueprintImplementableEvent, Category = "GameMode")
-	void OnMissionCompleted(APawn* InstigatorPawn);
+    UFUNCTION(BlueprintImplementableEvent, Category = "GameMode")
+    void OnMissionCompleted(APawn* InstigatorPawn, bool bMissionSuccess);
 };

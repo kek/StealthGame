@@ -37,5 +37,5 @@ void AFPSGameMode::CompleteMission(APawn* InstigatorPawn, bool bMissionSuccess)
             UE_LOG(LogTemp, Warning, TEXT("SpectatingViewpointClass is nullptr. Please update GameMode class with valid subclass. Can't change spectating view target."));
         }
     }
-    OnMissionCompleted(InstigatorPawn, true);
+    OnMissionCompleted(InstigatorPawn, bMissionSuccess);
 }

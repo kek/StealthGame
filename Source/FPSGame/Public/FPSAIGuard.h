@@ -39,7 +39,7 @@ protected:
 
     UFUNCTION()
     void ResetOrientation();
-    
+
     FRotator OriginalRotation;
     FTimerHandle TimerHandle_ResetOrientation;
 

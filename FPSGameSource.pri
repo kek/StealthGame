@@ -14484,5 +14484,6 @@ SOURCES += \
 	"$$FPSGameRootPath/Source/FPSGame/Private/FPSLaunchPad.cpp" \
 	"$$FPSGameRootPath/Source/FPSGame/Private/FPSObjectiveActor.cpp" \
 	"$$FPSGameRootPath/Source/FPSGame/Private/FPSProjectile.cpp" \
+	"$$FPSGameRootPath/Source/FPSGame/Private/FPSWaypoint.cpp" \
  
 

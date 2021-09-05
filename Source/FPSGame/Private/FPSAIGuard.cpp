@@ -23,7 +23,7 @@ void AFPSAIGuard::BeginPlay()
     OriginalRotation = GetActorRotation();
 }
 
-void AFPSAIGuard::OnPawnSeen(APawn* SeenPawn)
+void AFPSAIGuard::OnPawnSeen(APawn *SeenPawn)
 {
     if (SeenPawn == nullptr) {
         UE_LOG(LogTemp, Log, TEXT("Seen nothing"));
@@ -31,14 +31,14 @@ void AFPSAIGuard::OnPawnSeen(APawn* SeenPawn)
     }
     UE_LOG(LogTemp, Log, TEXT("Seen something"));
     DrawDebugSphere(GetWorld(), SeenPawn->GetActorLocation(), 32.0f, 12, FColor::Red, false, 3.0f);
-    AFPSGameMode* GM = Cast<AFPSGameMode>(GetWorld()->GetAuthGameMode());
+    AFPSGameMode *GM = Cast<AFPSGameMode>(GetWorld()->GetAuthGameMode());
     if (GM) {
         GM->CompleteMission(SeenPawn, false);
     }
     SetGuardState(EAIState::Alerted);
 }
 
-void AFPSAIGuard::OnNoiseHeard(APawn* NoiseInstigator, const FVector& Location, float Volume)
+void AFPSAIGuard::OnNoiseHeard(APawn *NoiseInstigator, const FVector &Location, float Volume)
 {
     if (GuardState == EAIState::Alerted) {
         return;
@@ -52,7 +52,7 @@ void AFPSAIGuard::OnNoiseHeard(APawn* NoiseInstigator, const FVector& Location, 
     NewLookAt.Roll = 0.0f;
     SetActorRotation(NewLookAt, ETeleportType::TeleportPhysics);
     GetWorldTimerManager().ClearTimer(TimerHandle_ResetOrientation);
-    GetWorldTimerManager().SetTimer(TimerHandle_ResetOrientation, this, &AFPSAIGuard::ResetOrientation, 3.0f);
+    GetWorldTimerManager().SetTimer(TimerHandle_ResetOrientation, this, &AFPSAIGuard::ResetOrientation, 5.0f);
     SetGuardState(EAIState::Suspicious);
 }
 

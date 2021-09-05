@@ -19030,5 +19030,6 @@ HEADERS += \
 	"$$FPSGameRootPath/Source/FPSGame/Public/FPSLaunchPad.h" \
 	"$$FPSGameRootPath/Source/FPSGame/Public/FPSObjectiveActor.h" \
 	"$$FPSGameRootPath/Source/FPSGame/Public/FPSProjectile.h" \
+	"$$FPSGameRootPath/Source/FPSGame/Public/FPSWaypoint.h" \
  
 

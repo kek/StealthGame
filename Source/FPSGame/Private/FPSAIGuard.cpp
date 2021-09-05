@@ -4,6 +4,7 @@
 #include "DrawDebugHelpers.h"
 #include "FPSGameMode.h"
 #include "Perception/PawnSensingComponent.h"
+#include <FPSWaypoint.h>
 
 // Sets default values
 AFPSAIGuard::AFPSAIGuard()
@@ -77,5 +78,55 @@ void AFPSAIGuard::SetGuardState(EAIState NewState)
 // Called every frame
 void AFPSAIGuard::Tick(float DeltaTime)
 {
+    if (Target && GuardState == EAIState::Idle) {
+        MarkTarget();
+        LookAtTarget();
+        MoveForward();
+        ChooseNewTarget();
+    }
+
     Super::Tick(DeltaTime);
+}
+
+void AFPSAIGuard::MoveForward()
+{
+    AddMovementInput(GetActorForwardVector(), 0.5f);
+}
+
+void AFPSAIGuard::ChooseNewTarget()
+{
+    FVector TargetLocation = Target->GetActorLocation();
+    FVector TargetDirection = TargetLocation - GetActorLocation();
+
+    AFPSWaypoint *NextTarget = Target->GetNextWaypoint();
+    FVector NextTargetLocation = NextTarget->GetActorLocation();
+    FVector NextTargetDirection = NextTargetLocation - GetActorLocation();
+
+    float distanceToTarget = TargetDirection.Size();
+    float distanceToNextTarget = NextTargetDirection.Size();
+
+    bool nextTargetIsFurtherAway = distanceToNextTarget > distanceToTarget;
+
+    if (TargetDirection.Size() < 100.0f && nextTargetIsFurtherAway) {
+        Target = Target->GetNextWaypoint();
+        UE_LOG(LogTemp, Log, TEXT("Moving to new target"));
+    }
+}
+
+void AFPSAIGuard::LookAtTarget()
+{
+    FVector TargetLocation = Target->GetActorLocation();
+    FVector TargetDirection = TargetLocation - GetActorLocation();
+
+    FRotator NewLookAt = FRotationMatrix::MakeFromX(TargetDirection).Rotator();
+    NewLookAt.Pitch = 0.0f;
+    NewLookAt.Roll = 0.0f;
+    SetActorRotation(NewLookAt, ETeleportType::TeleportPhysics);
+}
+
+void AFPSAIGuard::MarkTarget()
+{
+    FVector TargetLocation = Target->GetActorLocation();
+
+    DrawDebugSphere(GetWorld(), TargetLocation, 32.0f, 12, FColor::Red, false, 3.0f);
 }

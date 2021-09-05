@@ -12,8 +12,12 @@
 UCLASS()
 class FPSGAME_API AFPSWaypoint : public ATargetPoint
 {
-	GENERATED_BODY()
-	
-	UPROPERTY(EditInstanceOnly, Category = "AI")
+    GENERATED_BODY()
+
+    UPROPERTY(EditInstanceOnly, Category = "AI")
     ATargetPoint *Next;
+
+public:
+    FVector Location();
+    AFPSWaypoint *GetNextWaypoint();
 };

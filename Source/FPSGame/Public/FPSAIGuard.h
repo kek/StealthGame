@@ -5,6 +5,7 @@
 #include "CoreMinimal.h"
 #include "Engine/TargetPoint.h"
 #include "GameFramework/Character.h"
+#include "FPSWaypoint.h"
 
 #include "FPSAIGuard.generated.h"
 
@@ -54,9 +55,17 @@ protected:
     void OnStateChanged(EAIState NewState);
 
     UPROPERTY(EditInstanceOnly, Category = "AI")
-    ATargetPoint *Target;
+    AFPSWaypoint *Target;
 
 public:
     // Called every frame
     virtual void Tick(float DeltaTime) override;
+
+    void MoveForward();
+
+    void ChooseNewTarget();
+
+private:
+    void LookAtTarget();
+    void MarkTarget();
 };

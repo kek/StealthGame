@@ -1,0 +1,1 @@
+~/src/UnrealEngine/Engine/Binaries/ThirdParty/Mono/Linux/bin/mono /home/ke/src/UnrealEngine/Engine/Binaries/DotNET/UnrealBuildTool.exe  Development Linux -Project=$PWD/FPSGame.uproject  -TargetType=Editor -Progress

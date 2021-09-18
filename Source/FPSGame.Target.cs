@@ -5,9 +5,9 @@ using System.Collections.Generic;
 
 public class FPSGameTarget : TargetRules
 {
-	public FPSGameTarget(TargetInfo Target) : base(Target)
-	{
-		Type = TargetType.Game;
-		ExtraModuleNames.Add("FPSGame");
-	}
+    public FPSGameTarget(TargetInfo Target) : base(Target)
+    {
+        Type = TargetType.Game;
+        ExtraModuleNames.Add("FPSGame");
+    }
 }

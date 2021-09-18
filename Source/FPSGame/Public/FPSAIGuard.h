@@ -4,8 +4,8 @@
 
 #include "CoreMinimal.h"
 #include "Engine/TargetPoint.h"
-#include "GameFramework/Character.h"
 #include "FPSWaypoint.h"
+#include "GameFramework/Character.h"
 
 #include "FPSAIGuard.generated.h"
 
@@ -66,6 +66,7 @@ public:
     void ChooseNewTarget();
 
 private:
-    void LookAtTarget();
+    void LookAt(AActor *WhatToLookAt);
+    void RotateTowards(FVector &TargetDirection);
     void MarkTarget();
 };

@@ -31,9 +31,9 @@ void AFPSAIGuard::OnPawnSeen(APawn *SeenPawn)
     }
     UE_LOG(LogTemp, Log, TEXT("Seen something"));
     DrawDebugSphere(GetWorld(), SeenPawn->GetActorLocation(), 32.0f, 12, FColor::Red, false, 3.0f);
-    AFPSGameMode *GM = Cast<AFPSGameMode>(GetWorld()->GetAuthGameMode());
-    if (GM) {
-        GM->CompleteMission(SeenPawn, false);
+    AFPSGameMode *GameMode = Cast<AFPSGameMode>(GetWorld()->GetAuthGameMode());
+    if (GameMode) {
+        GameMode->CompleteMission(SeenPawn, false);
     }
     SetGuardState(EAIState::Alerted);
 }
@@ -47,10 +47,9 @@ void AFPSAIGuard::OnNoiseHeard(APawn *NoiseInstigator, const FVector &Location, 
     DrawDebugSphere(GetWorld(), Location, 32.0f, 12, FColor::Green, false, 3.0f);
     FVector Direction = Location - GetActorLocation();
     Direction.Normalize();
-    FRotator NewLookAt = FRotationMatrix::MakeFromX(Direction).Rotator();
-    NewLookAt.Pitch = 0.0f;
-    NewLookAt.Roll = 0.0f;
-    SetActorRotation(NewLookAt, ETeleportType::TeleportPhysics);
+
+    RotateTowards(Direction);
+
     GetWorldTimerManager().ClearTimer(TimerHandle_ResetOrientation);
     GetWorldTimerManager().SetTimer(TimerHandle_ResetOrientation, this, &AFPSAIGuard::ResetOrientation, 5.0f);
     SetGuardState(EAIState::Suspicious);
@@ -79,7 +78,7 @@ void AFPSAIGuard::Tick(float DeltaTime)
 {
     if (Target && GuardState == EAIState::Idle) {
         MarkTarget();
-        LookAtTarget();
+        LookAt(Target);
         MoveForward();
         ChooseNewTarget();
     }
@@ -112,11 +111,16 @@ void AFPSAIGuard::ChooseNewTarget()
     }
 }
 
-void AFPSAIGuard::LookAtTarget()
+void AFPSAIGuard::LookAt(AActor *WhatToLookAt)
 {
-    FVector TargetLocation = Target->GetActorLocation();
+    FVector TargetLocation = WhatToLookAt->GetActorLocation();
     FVector TargetDirection = TargetLocation - GetActorLocation();
 
+    RotateTowards(TargetDirection);
+}
+
+void AFPSAIGuard::RotateTowards(FVector &TargetDirection)
+{
     FRotator NewLookAt = FRotationMatrix::MakeFromX(TargetDirection).Rotator();
     NewLookAt.Pitch = 0.0f;
     NewLookAt.Roll = 0.0f;
